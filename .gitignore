@@ -1,6 +1,7 @@
 # Javascript
 *.js
 *.js.map
+.directory
 
 # Node
 node_modules/
