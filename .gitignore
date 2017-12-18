@@ -1,6 +1,6 @@
 # Javascript
-*.js
-*.js.map
+#*.js
+#*.js.map
 .directory
 
 # Node
@@ -17,5 +17,5 @@ ehthumbs.db
 Thumbs.db
 
 # Typings
-*.d.ts
-typings/
+#*.d.ts
+#typings/
