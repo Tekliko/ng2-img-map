@@ -40,18 +40,28 @@ var ImgMapComponent = (function () {
         /**
          * Added by V. Laugier
          */
-        this.inside = require('point-in-polygon');
+        this.inside = require('point-in-polygon');        
+        this.emphasizedMarkersIndexes = []; 
     }
     Object.defineProperty(ImgMapComponent.prototype, "setMarkers", {
         set: function (markers) {
             this.markerActive = null;
-            this.markerHover = null;
+            this.markerHover = null;            
             this.markers = markers;
             this.draw();
         },
         enumerable: true,
         configurable: true
     });
+    // Added by V. Laugier
+    Object.defineProperty(ImgMapComponent.prototype, "setEmphasizedMarkersIndexes", {
+        set: function (markers) {
+            this.emphasizedMarkersIndexes = markers;            
+            this.draw();
+        },
+        enumerable: true,
+        configurable: true
+    });    
     ImgMapComponent.prototype.change = function () {
         if (this.markerActive === null) {
             this.changeEvent.emit(null);
@@ -101,13 +111,17 @@ var ImgMapComponent = (function () {
         
         switch (type) {
             case 'active':
-                context.fillStyle = 'rgba(255, 0, 0, 0.6)';
+                context.fillStyle = 'rgba(100, 100, 100, 0.6)';
                 break;
             case 'hover':
                 context.fillStyle = 'rgba(0, 0, 255, 0.6)';
                 break;
+            // Added by V. Laugier
+            case 'emphasized':
+                context.fillStyle = 'rgba(255, 0, 0, 0.8)';
+                break;
             default:
-                context.fillStyle = 'rgba(0, 0, 255, 0.4)';
+                context.fillStyle = 'rgba(0, 0, 255, 0.1)';
         }
         context.fill();
     };
@@ -182,7 +196,7 @@ var ImgMapComponent = (function () {
      */
     ImgMapComponent.prototype.mark = function (pixel) {
         this.markerActive = this.markers.length;
-        this.markers.push(this.pixelToMarker(pixel));
+//         this.markers.push(this.pixelToMarker(pixel)); // Commented out by V. Laugier
         this.draw();
         this.markEvent.emit(this.markers[this.markerActive]);
     };
@@ -218,6 +232,9 @@ var ImgMapComponent = (function () {
             }
             else if (_this.markerHover === index) {
                 _this.drawMarker(pixel, 'hover');
+            }
+            else if (_this.emphasizedMarkersIndexes.indexOf(index) >= 0) {
+                _this.drawMarker(pixel, 'emphasized');
             }
             else {
                 _this.drawMarker(pixel);
@@ -302,6 +319,12 @@ var ImgMapComponent = (function () {
         __metadata('design:type', Array), 
         __metadata('design:paramtypes', [Array])
     ], ImgMapComponent.prototype, "setMarkers", null);
+    // Added by V. Laugier
+    __decorate([
+        core_1.Input('emphasizedMarkersIndexes'), 
+        __metadata('design:type', Array), 
+        __metadata('design:paramtypes', [Array])
+    ], ImgMapComponent.prototype, "setEmphasizedMarkersIndexes", null);
     __decorate([
         core_1.Input(), 
         __metadata('design:type', Number)
