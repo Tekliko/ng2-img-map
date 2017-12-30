@@ -250,10 +250,11 @@ var ImgMapComponent = (function () {
             this.pixels.forEach(function (pixel, index) {
                 if (_this.insideMarker(pixel, cursor)) {
                     active = true;
-                    if (_this.markerActive === null || _this.markerActive !== index) {
+                    // Commented out by Vincent L. so that we always get an event
+//                     if (_this.markerActive === null || _this.markerActive !== index) {
                         _this.markerActive = index;
                         change = true;
-                    }
+//                     }
                 }
             });
             if (!active && this.markerActive !== null) {
