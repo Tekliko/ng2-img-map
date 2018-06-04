@@ -1,5 +1,4 @@
 import { EventEmitter, Renderer } from '@angular/core';
-@Component
 export declare class ImgMapComponent {
     private renderer;
     /**
